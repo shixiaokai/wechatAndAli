@@ -1,0 +1,10 @@
+/.DS_Store
+/.settings
+/.project
+/.idea*
+.env
+/vendor*
+/storage
+/composer.lock*
+composer.lock*
+/public/.hta*
