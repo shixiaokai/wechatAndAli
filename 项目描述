@@ -1,0 +1,16 @@
+作者:石晓凯
+
+时间: 2018-07-15
+
+联系方式:QQ545807679（微信同。小弟不才，第一次用gitHub,html写的不好请勿嘲笑~）如有指教或疑问请联系
+
+描述:
+    PHP框架 laravel
+
+    微信,支付宝相关接口以及PHP通用一些类
+
+    相关支付需要的信息请开发者根据demo进行配置
+
+    默认访问地址 主域名 /index/share   例如:https://www.baidu.com/index/share
+
+    默认加载微信JSAPI支付和支付宝QUICK_WAP_PAY支付

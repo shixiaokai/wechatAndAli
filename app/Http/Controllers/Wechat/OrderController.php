@@ -96,7 +96,13 @@ class OrderController extends Controller
                 return false;
             }
         }
-        return view('h5.order.pay');
+        $arr['type'] = $paytype;
+        if($paytype == 1){
+            $jssdk= new JSSDK();
+            $signPackage = $jssdk->getSignPackage(1);
+            $arr['signPackage'] = $signPackage;
+        }
+        return view('h5.order.pay',$arr);
     }
 
     /*
