@@ -9,19 +9,11 @@
 namespace App\lib;
 use App\lib\SampleCode\Thirdparty;
 use App\lib\SampleCode\wxBizMsgCrypt;
-use App\Models\CommChannel\wechats;
-use App\Models\Merchant\coupon;
-use App\Models\Merchant\dev_channel;
-use App\Models\MerchantApi\channel_powder_set;
-use App\Models\MerchantApi\wechat_subscribe;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
-use Ixudra\Curl\Facades\Curl;
 
-//define("token", "weixin");
-//define("AppID", "wx1985bd0909bbc1f9");
-//define("EncodingAESKey", "NQRc2EskoLyejQsPgfhOUj2cPyRDmDhzv2G4IjxRylA");
+//define("token");
+//define("AppID");
+//define("EncodingAESKey");
 //if(strtolower($_SERVER['REQUEST_METHOD']) == 'get') {
 //    file_put_contents('weixin_log.txt', "IP=".$_SERVER['REMOTE_ADDR'].PHP_EOL,FILE_APPEND); //记录访问IP到log日志
 //    file_put_contents('weixin_log.txt', "QUERY_STRING=".$_SERVER['QUERY_STRING'].PHP_EOL,FILE_APPEND);//记录请求字符串到log日志
