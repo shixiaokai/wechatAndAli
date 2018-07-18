@@ -4,7 +4,7 @@
  * User:石晓凯
  * Date: 2017/6/7
  * Time: 11:37
- * 注: 本demo采用的加密方式为RSA,如需更换加密方式，请开发者自行修改配置
+ * 注: 本demo采用的加密方式为RSA,如需更换加密方式，请开发者自行修改相关配置
  */
 namespace App\lib;
 use App\lib\AliApi\aop\AopClient;

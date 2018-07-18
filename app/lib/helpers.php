@@ -94,6 +94,7 @@ if(!function_exists('get_userInfo_wechat_Ali')) {
                 return ['errorCode'=>0,'data'=>'网络错误'];
             }
             $openid = $userInfo['openid'];
+            $_SESSION['openid'] = $openid;
             $unionid = (isset($userInfo['unionid']) && !empty($userInfo['unionid'])) ? $userInfo['unionid'] : $userInfo['openid'];
             $nickname = (isset($userInfo['nickname']) && !empty($userInfo['nickname'])) ? $userInfo['nickname'] : '';
             $language = (isset($userInfo['language']) && !empty($userInfo['language'])) ? $userInfo['language'] : '';
@@ -115,7 +116,7 @@ if(!function_exists('get_userInfo_wechat_Ali')) {
             $userInfo = $AliSSDK->getCode('2');
             if (!isset($userInfo['user_id']) || empty($userInfo['user_id'])) return '网络错误';
             $user_id = $userInfo['user_id'];
-            $user['open_id'] = $user_id;
+            $_SESSION['openid'] = $user_id;
             $arr['openid'] = $user_id;
             $arr['nickname'] = isset($userInfo['nick_name']) ? $userInfo['nick_name'] : '';
             $arr['sex'] = isset($userInfo['gender']) && $userInfo['gender'] == 'M' ? 1 : (isset($userInfo['gender']) && $userInfo['gender'] == 'F' ?: '0');
