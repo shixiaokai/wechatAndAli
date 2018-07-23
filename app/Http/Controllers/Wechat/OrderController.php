@@ -5,13 +5,11 @@ namespace App\Http\Controllers\Wechat;
 use App\lib\Alijssdk;
 use App\lib\Util;
 use App\lib\WeChat\Transfer\JSSDK;
+use App\lib\WeChat\Transfer\WxTransfer;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
@@ -118,6 +116,28 @@ class OrderController extends Controller
         $data = Util::xmlToArray($xml);
         if($data && $data['result_code']=='SUCCESS')
         {
+            if(!array_key_exists("transaction_id", $data)){//参数错误
+                return "<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[error]]></return_msg></xml>";
+                exit;
+            }
+            $wechat = new WxTransfer();
+            //根据微信回执号查询订单
+            $orderInfo = $wechat->orderQuery(['orderNumber'=>$data["transaction_id"]]);
+            if(!$orderInfo){
+                return "<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[error]]></return_msg></xml>";
+                exit;
+            }
+            $return_code = isset( $orderInfo['return_code'] )?$orderInfo['return_code']:'';
+            $trade_state = isset( $orderInfo['trade_state'] )?$orderInfo['trade_state']:'';
+            $result_code = isset( $orderInfo['result_code'] )?$orderInfo['result_code']:'';
+            if( ($return_code == 'SUCCESS') && ($trade_state == 'SUCCESS') && ($result_code == 'SUCCESS')) {//订单合法
+            }elseif($result_code == 'FAIL'){
+                //微信后台系统返回错误	系统异常，请再调用发起查询
+                $err_code = isset( $res['err_code'] )?$res['err_code']:'';
+                if($err_code == 'SYSTEMERROR'){}
+            }else{//订单查询一定出错打印日志
+                Storage::disk('paylog')->append('wechatnotifyError.log','支付回调订单异常:'."\n".json_encode($orderInfo)."\n".' 时间：'.date('Y-m-d H:i:s',time()));
+            }
             //此处为回调信息开发者需自行写业务回调
             Storage::disk('paylog')->append('wechatnotify.log','回调数据:'."\n".json_encode($data)."\n".' 时间：'.date('Y-m-d H:i:s',time()));
             $res = '业务处理结果';
