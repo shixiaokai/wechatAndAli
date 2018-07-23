@@ -172,6 +172,17 @@ class OrderController extends Controller
                 Storage::disk('paylog')->append('notify_order_fait.log', '回调记录3——签名错误时间:'.date('Y-m-d H:i:s')."\n".'data:'.json_encode($data));
                 return 'FAIT';
             }
+            $res = $aliInfo->queryOrder( ['orderNumber'=>'商户订单号'] );
+            if(!$res) return false;
+            $code = isset( $res['code'] )?$res['code']:0;
+            $msg = isset( $res['msg'] )?strtolower($res['msg']):'';
+            if( ($code == 10000 ) && ($msg == 'success' ) ){//订单合法
+            }elseif($code == 20000 ){//支付宝服务暂不可用标记订单稍后处理
+
+            }else{//订单查询一定出错打印日志
+                torage::disk('paylog')->append('alinotifyError.log','支付回调订单异常:'."\n".json_encode($res)."\n".' 时间：'.date('Y-m-d H:i:s',time()));
+            }
+
             return 'success';
             exit;
         }else{
